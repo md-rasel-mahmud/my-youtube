@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { connect } from "react-redux";
-import { getPlaylistInfo } from "../../services/apiService";
-import { useParams } from "react-router-dom";
+import { getCommentsThreads, getPlaylistInfo } from "../../services/apiService";
+import { Link, useParams } from "react-router-dom";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { setPlaylist } from "../../redux/features/globalSlice";
 
@@ -15,6 +15,7 @@ class VideoInfo extends Component {
     playlistInfo: null,
     videoInfo: null,
     isFavorite: null,
+    commentsThreads: null,
   };
   componentDidMount() {
     const playlistId = this.props.params.playlistId;
@@ -31,6 +32,12 @@ class VideoInfo extends Component {
   componentDidUpdate() {
     if (this.props.singleVideoInfo !== this.state.videoInfo) {
       this.setState({ videoInfo: this.props.singleVideoInfo });
+
+      // update comment info
+      const videoId = this.props.params.videoId;
+      getCommentsThreads(videoId).then((res) =>
+        this.setState({ commentsThreads: res })
+      );
     }
   }
   handleFavorite = () => {
@@ -58,15 +65,21 @@ class VideoInfo extends Component {
   };
 
   render() {
+    // console.log(this.state.commentsThreads);
     return (
       <>
         {this.state?.videoInfo?.snippet ? (
           <div className="mt-2 flex flex-col gap-3">
             <h2 className="text-3xl">{this.state.videoInfo?.snippet.title}</h2>
             <div className="flex items-center justify-between mt-2">
-              <button className="btn btn-secondary ">
+              <Link
+                to={`https://www.youtube.com/channel/${this.state.videoInfo?.snippet.channelId}`}
+                target="_blank"
+                rel="noreferrer"
+                className="btn btn-secondary"
+              >
                 {this.state.videoInfo?.snippet.channelTitle}
-              </button>
+              </Link>
 
               <button
                 onClick={this.handleFavorite}

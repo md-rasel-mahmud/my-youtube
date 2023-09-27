@@ -38,4 +38,13 @@ const getPlaylistInfo = async (playlistId) => {
   return result;
 };
 
-export { getPlaylistInfo, getPlaylistItems };
+const getCommentsThreads = async (videoId) => {
+  const url = `https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&key=${
+    import.meta.env.VITE_api_key
+  }`;
+  const res = await fetch(url);
+  const data = await res.json();
+  return data;
+};
+
+export { getPlaylistInfo, getPlaylistItems, getCommentsThreads };
