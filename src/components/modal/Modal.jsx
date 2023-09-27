@@ -21,6 +21,7 @@ class Modal extends Component {
           checked={modalState}
           id="my_modal_6"
           className="modal-toggle"
+          defaultChecked={false}
         />
         <div className="modal">
           <div className="modal-box">

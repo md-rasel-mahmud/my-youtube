@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import React, { Component } from "react";
 import Sidebar from "./components/sidebars/Sidebar";
+import { Toaster } from "react-hot-toast";
 
 class App extends Component {
   render() {
@@ -9,6 +10,7 @@ class App extends Component {
         <Sidebar>
           <Outlet />
         </Sidebar>
+        <Toaster />
       </main>
     );
   }

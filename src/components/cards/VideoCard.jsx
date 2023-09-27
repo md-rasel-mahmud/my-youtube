@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import { setSingleVideoInfo } from "../../redux/features/globalSlice";
 
 class VideoCard extends Component {
-  componentDidUpdate() {
+  componentDidMount() {
     if (
       this.props.paramsVideoId ===
       this.props.singleVideo?.snippet?.resourceId?.videoId
@@ -14,6 +14,17 @@ class VideoCard extends Component {
       this.props.setSingleVideo({
         ...this.props.singleVideo,
         videoPosition: this.props.index + 1,
+      });
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.paramsVideoId ===
+      nextProps.singleVideo?.snippet?.resourceId?.videoId
+    ) {
+      nextProps.setSingleVideo({
+        ...nextProps.singleVideo,
+        videoPosition: nextProps.index + 1,
       });
     }
   }

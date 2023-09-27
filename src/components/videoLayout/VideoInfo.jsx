@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { connect } from "react-redux";
-import { getCommentsThreads, getPlaylistInfo } from "../../services/apiService";
+import { getPlaylistInfo } from "../../services/apiService";
 import { Link, useParams } from "react-router-dom";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { setPlaylist } from "../../redux/features/globalSlice";
+import toast from "react-hot-toast";
 
 const withParams = (Component) => {
   return (props) => <Component {...props} params={useParams()} />;
@@ -15,31 +16,30 @@ class VideoInfo extends Component {
     playlistInfo: null,
     videoInfo: null,
     isFavorite: null,
-    commentsThreads: null,
   };
   componentDidMount() {
     const playlistId = this.props.params.playlistId;
     getPlaylistInfo(playlistId).then((res) =>
-      this.setState({ ...this.state, playlistInfo: res })
+      this.setState({
+        ...this.state,
+        playlistInfo: res,
+        videoInfo: this.props.singleVideoInfo,
+      })
     );
 
     const findPlaylistData = this.props?.playlistInfo?.find(
       (item) => playlistId === item.playlistId
     );
 
-    this.setState({ ...this.state, isFavorite: findPlaylistData?.favorite });
+    this.setState({
+      ...this.state,
+      isFavorite: findPlaylistData?.favorite,
+    });
   }
-  componentDidUpdate() {
-    if (this.props.singleVideoInfo !== this.state.videoInfo) {
-      this.setState({ videoInfo: this.props.singleVideoInfo });
+  componentWillReceiveProps(nextProps) {
+    this.setState({ videoInfo: nextProps.singleVideoInfo });
+  }
 
-      // update comment info
-      const videoId = this.props.params.videoId;
-      getCommentsThreads(videoId).then((res) =>
-        this.setState({ commentsThreads: res })
-      );
-    }
-  }
   handleFavorite = () => {
     const filterCurrentData = this.props.playlistInfo.filter(
       (item) => item.playlistId !== this.state.playlistInfo.playlistId
@@ -51,6 +51,11 @@ class VideoInfo extends Component {
       ...filterCurrentData,
       { ...this.state.playlistInfo, favorite: !this.state.isFavorite },
     ]);
+
+    //show toast
+    this.state.isFavorite
+      ? toast.success("Removed from favorite")
+      : toast.success(" Added to favorite");
 
     // set update data in localStorage
     localStorage.setItem(
@@ -65,7 +70,6 @@ class VideoInfo extends Component {
   };
 
   render() {
-    // console.log(this.state.commentsThreads);
     return (
       <>
         {this.state?.videoInfo?.snippet ? (

@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { deletePlaylist, setPlaylist } from "../../redux/features/globalSlice";
 import { Link } from "react-router-dom";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import toast from "react-hot-toast";
 
 class PlaylistCard extends Component {
   state = {
@@ -36,6 +37,11 @@ class PlaylistCard extends Component {
       ...filterCurrentData,
       { ...this.props.item, favorite: !this.state.isFavorite },
     ]);
+
+    //show toast
+    this.state.isFavorite
+      ? toast.success("Removed from favorite")
+      : toast.success(" Added to favorite");
 
     // set update data in localStorage
     localStorage.setItem(
@@ -88,7 +94,7 @@ class PlaylistCard extends Component {
           </div>
           <Link
             onClick={this.handleRecent}
-            to={`video-page/${item?.playlistId}/${item?.firstVideoInfo?.videoId}`}
+            to={`/video-page/${item?.playlistId}/${item?.firstVideoInfo?.videoId}`}
           >
             <div className="absolute z-50 hidden group-hover:flex group-hover:cursor-pointer text-white font-bold gap-2 text-2xl top-0 right-0 bg w-full h-full  flex-col justify-center items-center bg-black/50 backdrop-blur-md">
               <h4 className="flex items-center gap-2">
@@ -106,7 +112,7 @@ class PlaylistCard extends Component {
           <div className="card-actions justify-between border-t border-gray-700 mt-2 pt-2">
             <Link
               onClick={this.handleRecent}
-              to={`video-page/${item?.playlistId}/${item?.firstVideoInfo?.videoId}`}
+              to={`/video-page/${item?.playlistId}/${item?.firstVideoInfo?.videoId}`}
               className="btn btn-ghost btn-xs"
             >
               View Full Playlist

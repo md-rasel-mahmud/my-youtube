@@ -6,7 +6,6 @@ class SingleChat extends Component {
       comments: { snippet },
     } = this.props;
 
-    console.log(snippet);
     return (
       <div className="chat chat-start">
         <div className="chat-image avatar">

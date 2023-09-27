@@ -8,21 +8,20 @@ class VideoComments extends Component {
 
   updateCommentInfo() {
     this.setState({ videoIdState: this.props.videoId });
-    getCommentsThreads(this.props.videoId).then((res) =>
-      this.setState({ commentsThreads: res })
+    getCommentsThreads(this.props.videoId).then(
+      (res) => !res.error && this.setState({ commentsThreads: res })
     );
   }
 
   componentDidMount() {
     this.updateCommentInfo();
   }
-  componentDidUpdate() {
-    if (this.props.videoId !== this.state.videoIdState) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.videoId !== this.state.videoIdState) {
       this.updateCommentInfo();
     }
   }
   render() {
-    console.log(this.state.commentsThreads);
     return (
       <>
         {this.state?.commentsThreads ? (
@@ -30,12 +29,12 @@ class VideoComments extends Component {
             <div className="divider"></div>
             <h4 className="font-bold text-lg my-2">Comments: </h4>
 
-            {this.state.commentsThreads.items.map((comment) => (
+            {this.state?.commentsThreads?.items.map((comment) => (
               <SingleChat comments={comment} />
             ))}
           </>
         ) : (
-          <h2 className="text-error text-xl font-bold flex items-center gap-2 bg-base-200 p-2 rounded-lg w-full">
+          <h2 className="text-error text-xl font-bold flex items-center gap-2 my-2 bg-base-200 p-2 rounded-lg w-full">
             <FaSearch /> No Comments found
           </h2>
         )}
