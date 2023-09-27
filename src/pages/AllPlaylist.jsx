@@ -1,22 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { FaHeart } from "react-icons/fa";
+import { FaList } from "react-icons/fa";
 import Playlist from "../components/playlist/Playlist";
 
-class Favorite extends Component {
+class AllPlaylist extends Component {
   state = { option: false };
 
   render() {
     const { playlist } = this.props;
-    const favorite = playlist.filter((item) => item.favorite);
 
     return (
-      <Playlist
-        icon={<FaHeart />}
-        path="favorite"
-        title="Favorite Playlist"
-        playlist={favorite}
-      />
+      <Playlist icon={<FaList />} playlist={playlist} title="All Playlist" />
     );
   }
 }
@@ -27,4 +21,4 @@ const getPlaylistDataFromReduxStore = (state) => {
   };
 };
 
-export default connect(getPlaylistDataFromReduxStore)(Favorite);
+export default connect(getPlaylistDataFromReduxStore)(AllPlaylist);

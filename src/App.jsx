@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
-
 import React, { Component } from "react";
+import Sidebar from "./components/sidebars/Sidebar";
 
 class App extends Component {
   render() {

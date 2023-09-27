@@ -1,9 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/Home";
-import Playlist from "../pages/Playlist";
+
 import Recent from "../pages/Recent";
 import Favorite from "../pages/Favorite";
+import VideoLayout from "../pages/VideoLayout";
+import VideoPage from "../components/videoLayout/VideoPage";
+import AllPlaylist from "../pages/AllPlaylist";
 
 export const router = createBrowserRouter([
   {
@@ -16,7 +19,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "playlist",
-        element: <Playlist />,
+        element: <AllPlaylist />,
       },
       {
         path: "recent",
@@ -25,6 +28,16 @@ export const router = createBrowserRouter([
       {
         path: "favorite",
         element: <Favorite />,
+      },
+      {
+        path: "video-page/:playlistId/",
+        element: <VideoLayout />,
+        children: [
+          {
+            path: ":videoId",
+            element: <VideoPage />,
+          },
+        ],
       },
     ],
   },

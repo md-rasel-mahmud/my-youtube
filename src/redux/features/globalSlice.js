@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   playlistData: JSON.parse(localStorage.getItem("data"))?.data || [],
+  singleVideoInfo: null,
+  modalState: false,
 };
 
 export const globalSlice = createSlice({
@@ -18,12 +20,30 @@ export const globalSlice = createSlice({
       state.playlistData = state.playlistData.filter(
         (item) => item?.etag !== payload
       );
-      localStorage.setItem("data", JSON.stringify(state?.playlistData));
+      localStorage.setItem(
+        "data",
+        JSON.stringify({ data: state?.playlistData })
+      );
+    },
+
+    // set single video info
+    setSingleVideoInfo: (state, { payload }) => {
+      state.singleVideoInfo = payload;
+    },
+
+    // setModalState
+    setModalState: (state, { payload }) => {
+      state.modalState = payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setPlaylist, deletePlaylist } = globalSlice.actions;
+export const {
+  setPlaylist,
+  deletePlaylist,
+  setSingleVideoInfo,
+  setModalState,
+} = globalSlice.actions;
 
 export default globalSlice.reducer;
