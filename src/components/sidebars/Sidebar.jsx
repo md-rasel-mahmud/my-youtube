@@ -15,7 +15,7 @@ class Sidebar extends Component {
     modalOpen: false,
     inputError: "",
     playlistUrlInput:
-      "https://www.youtube.com/watch?v=9Oa_mWpckns&list=PL0BgiG4bfDwrAVa--1MgGDc3fXkr_NFLF&ab_channel=Meghdol%28%E0%A6%AE%E0%A7%87%E0%A6%98%E0%A6%A6%E0%A6%B2%29Official",
+      "https://www.youtube.com/playlist?list=PLNeGQWc298uwyXJrdNMLpRgw2qHvRxFgB",
   };
 
   // handle submit playlist
